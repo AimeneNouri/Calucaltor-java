@@ -27,6 +27,8 @@ public class calculator {
 	private JFrame frame;
 	private JTextField value1;
 	private JTextField value2;
+	JEditorPane editorPane = new JEditorPane();
+
 
 	/**
 	 * Launch the application.
@@ -37,6 +39,7 @@ public class calculator {
 			UIManager.setLookAndFeel("com.sun.javax.swing.plaf.metal.MetalLookAndFeel");
 		} catch (Exception e) {
 			// handle exception
+			System.err.println("Look and feel not set.");
 		}
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -72,20 +75,32 @@ public class calculator {
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("File");
-		menuBar.add(mnNewMenu);
+		JMenu mnNewMenu = new JMenu("Mode");
+		menuBar.add(mnNewMenu);		
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Exit");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Unit conversion");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setTitle("Unit Conversion ");
+				frame.setBounds(750, 200, 884, 550);
+				editorPane.setBounds(12, 13, 438, 71);
+				value2.setBounds(19, 46, 428, 37);
+				value1.setBounds(245, 18, 200, 26);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
+
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exit");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		mnNewMenu.add(mntmNewMenuItem);
+		mnNewMenu.add(mntmNewMenuItem_1);
 		
+		//frame content
 		frame.getContentPane().setLayout(null);
 		frame.setTitle("Calculator Java | By AimeneNouri");
-		JEditorPane editorPane = new JEditorPane();
 		editorPane.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		editorPane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		editorPane.setBounds(12, 13, 438, 71);
@@ -214,6 +229,12 @@ public class calculator {
 				{
 					int mul = n1 * n2;
 					value2.setText(String.valueOf(mul));
+				}
+				//pow
+				if(ActionRecieved.getText().equals("pow"))
+				{
+					int pow = (int) Math.pow(n1, n2);
+					value2.setText(String.valueOf(pow));
 				}
 			}
 		});
@@ -441,9 +462,9 @@ public class calculator {
 		JButton btnXosY = new JButton("x^y");
 		btnXosY.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				double ops = Double.parseDouble(String.valueOf(value2.getText()));
-				ops = Math.pow(ops, ops);
-				value2.setText(String.valueOf(ops));
+				value1.setText(value2.getText());
+				ActionRecieved.setText("pow");
+				value2.setText(null);
 			}
 		});
 		btnXosY.setBounds(278, 391, 86, 36);
