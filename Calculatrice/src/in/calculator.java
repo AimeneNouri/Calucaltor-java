@@ -84,6 +84,17 @@ public class calculator {
 		JMenu mnNewMenu = new JMenu("Mode");
 		menuBar.add(mnNewMenu);		
 		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Scientific");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setTitle("Calculatrice | By AimeneNouri");
+				frame.setBounds(700, 200, 480, 550);
+				editorPane.setBounds(12, 13, 438, 71);
+				
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem_2);
+		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Unit conversion ");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -95,6 +106,8 @@ public class calculator {
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem);
+		
+		
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exit");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
@@ -602,6 +615,12 @@ public class calculator {
 						Result.setText(result + "$");
 						
 					}
+					//MAD to MAD
+					if(comboBox1.getSelectedItem().equals("MAD") && comboBox2.getSelectedItem().equals("MAD")) {
+						result = input ;
+						Result.setText(result + "DH");
+						
+					}
 					
 					//EUR to MAD
 					if(comboBox1.getSelectedItem().equals("EUR") && comboBox2.getSelectedItem().equals("MAD")) {
@@ -615,6 +634,12 @@ public class calculator {
 						Result.setText(result + "$");
 					}
 					
+					//EUR to EUR
+					if(comboBox1.getSelectedItem().equals("EUR") && comboBox2.getSelectedItem().equals("EUR")) {
+						result = input;
+						Result.setText(result + "€");
+					}
+					
 					//USD to MAD
 					if(comboBox1.getSelectedItem().equals("USD") && comboBox2.getSelectedItem().equals("MAD")) {
 						result = input * 10.1408 ;
@@ -625,6 +650,12 @@ public class calculator {
 					if(comboBox1.getSelectedItem().equals("USD") && comboBox2.getSelectedItem().equals("EUR")) {
 						result = input * 0.09150;
 						Result.setText(result + "€");
+					}
+					
+					//USD to USD
+					if(comboBox1.getSelectedItem().equals("USD") && comboBox2.getSelectedItem().equals("USD")) {
+						result = input;
+						Result.setText(result + "$");
 					}
 					
 				} catch (Exception e){
