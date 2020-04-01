@@ -5,7 +5,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JEditorPane;
 import java.awt.BorderLayout;
+
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -20,6 +25,7 @@ import javax.swing.UIManager;
 
 import java.awt.SystemColor;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 
 public class calculator {
@@ -78,11 +84,11 @@ public class calculator {
 		JMenu mnNewMenu = new JMenu("Mode");
 		menuBar.add(mnNewMenu);		
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Unit conversion");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Unit conversion ");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.setTitle("Unit Conversion ");
-				frame.setBounds(750, 200, 884, 550);
+				frame.setTitle("Unit Conversion | By AimeneNouri");
+				frame.setBounds(750, 200, 940, 550);
 				editorPane.setBounds(12, 13, 438, 71);
 				value2.setBounds(19, 46, 428, 37);
 				value1.setBounds(245, 18, 200, 26);
@@ -528,13 +534,118 @@ public class calculator {
 			public void actionPerformed(ActionEvent arg0) {
 				double ops = Double.parseDouble(String.valueOf(value2.getText()));
 				ops = Math.log10(ops);
-				value2.setText(String.valueOf(ops));;
+				value2.setText(String.valueOf(ops));
 			}
 		});
 		btnlog10.setBounds(363, 433, 90, 36);
 		frame.getContentPane().add(btnlog10);
 		
+		/*
+		 * mode Currency Conversion
+		 */
+		JLabel theAmount = new JLabel("Enter The Amount:");
+		theAmount.setBounds(476, 105, 176, 22);
+		frame.getContentPane().add(theAmount);
+		
+		JLabel To = new JLabel("To :");
+		To.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		To.setBounds(476, 251, 100, 22);
+		frame.getContentPane().add(To);
+		
+		JLabel Result = new JLabel("Result :");
+		Result.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		Result.setBounds(720, 251, 190, 22);
+		frame.getContentPane().add(Result);
+		
+		JTextField amount = new JTextField("");
+		amount.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		amount.setBounds(600, 105, 140, 22);
+		frame.getContentPane().add(amount);
+		
+		JComboBox comboBox1 = new JComboBox();
+		comboBox1.setBounds(741, 105, 176, 22);
+		frame.getContentPane().add(comboBox1);
+		comboBox1.setModel(new DefaultComboBoxModel(new String[] {"SELECT", "MAD", "USD", "EUR"}));
+		
+		JComboBox comboBox2 = new JComboBox();
+		comboBox2.setBounds(530, 250, 176, 22);
+		frame.getContentPane().add(comboBox2);
+		comboBox2.setModel(new DefaultComboBoxModel(new String[] {"SELECT", "MAD", "USD", "EUR"}));
+		
+		JButton btnReset= new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				comboBox1.setSelectedIndex(0);
+				comboBox2.setSelectedIndex(0);
+				amount.setText(" ");
+				Result.setText("0.00");
+			}
+		});
+		btnReset.setBounds(550, 340, 90, 36);
+		frame.getContentPane().add(btnReset);
+		
+		JButton btnConvert= new JButton("Convert");
+		btnConvert.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					input = Double.parseDouble(amount.getText());
+					
+					//MAD to EUR
+					if(comboBox1.getSelectedItem().equals("MAD") && comboBox2.getSelectedItem().equals("EUR")) {
+						result = input * 0.09150 ;
+						Result.setText(result + "€");
+					}
+					
+					//MAD to USD
+					if(comboBox1.getSelectedItem().equals("MAD") && comboBox2.getSelectedItem().equals("USD")) {
+						result = input * 0.09895 ;
+						Result.setText(result + "$");
+						
+					}
+					
+					//EUR to MAD
+					if(comboBox1.getSelectedItem().equals("EUR") && comboBox2.getSelectedItem().equals("MAD")) {
+						result = input * 11.0773  ;
+						Result.setText(result + "DH");
+					}
+					
+					//EUR to USD
+					if(comboBox1.getSelectedItem().equals("EUR") && comboBox2.getSelectedItem().equals("USD")) {
+						result = input * 1.09230 ;
+						Result.setText(result + "$");
+					}
+					
+					//USD to MAD
+					if(comboBox1.getSelectedItem().equals("USD") && comboBox2.getSelectedItem().equals("MAD")) {
+						result = input * 10.1408 ;
+						Result.setText(result + "DH");
+					}
+					
+					//USD to EUR
+					if(comboBox1.getSelectedItem().equals("USD") && comboBox2.getSelectedItem().equals("EUR")) {
+						result = input * 0.09150;
+						Result.setText(result + "€");
+					}
+					
+				} catch (Exception e){
+					//if the input is invalid
+					JOptionPane.showMessageDialog(frame, "warning: " , e.getMessage(), 0);
+				}
+			}
+		});
+		btnConvert.setBounds(750, 340, 90, 36);
+		frame.getContentPane().add(btnConvert);
 	}
 	private JLabel ActionRecieved;
 	private JTextField textField;
+	private JTextField amount;
+	private JButton btnReset;
+	private JButton btnConvert;
+	private JComboBox comboBox1;
+	private JComboBox comboBox2;
+	private JLabel Result;
+	private JLabel To;
+	private JLabel theAmount;
+	double result = 0.0;
+	double input;
 }
